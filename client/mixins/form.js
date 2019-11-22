@@ -1,11 +1,11 @@
 export default {
-    data: () => ({
-        loading: false
-    }),
+  data: () => ({
+    loading: false
+  }),
 
-    methods: {
-        toggleLoading() {
-            this.loading = !this.loading
-        }
+  methods: {
+    toggleLoading() {
+      this.loading = !this.loading
     }
+  }
 }

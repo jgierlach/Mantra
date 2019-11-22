@@ -20,8 +20,8 @@ Vue.component('loader', Loader)
 Vue.component('text-input', TextInput)
 
 const app = new Vue({
-    el: '#app',
-    router,
-    store,
-    render: h => h(Main)
+  el: '#app',
+  router,
+  store,
+  render: h => h(Main)
 })
