@@ -29,63 +29,59 @@
                     :error="errors.first('password')"
                     placeholder="Enter your password"
                 />
-                <btn
-                    label="Sign Up"
-                    :disabled="loading"
-                    :loading="loading"
-                    @click="register"
-                />
+                <btn label="Sign Up" :disabled="loading" :loading="loading" @click="register" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import formMixin from '@client/mixins/form'
-    import { POST_REGISTER, SET_AUTH } from '@store/auth/actions'
+import formMixin from '@client/mixins/form'
+import { POST_REGISTER, SET_AUTH } from '@store/auth/actions'
 
-    export default {
-        mixins: [formMixin],
-        data: () => ({
-            model: {
-                name: '',
-                email: '',
-                password: ''
-            }
-        }),
+export default {
+    mixins: [formMixin],
+    data: () => ({
+        model: {
+            name: '',
+            email: '',
+            password: ''
+        }
+    }),
 
-        methods: {
-            register() {
-                this.$validator.validate().then(isValid => {
-                    if (! isValid) {
-                        return
-                    }
+    methods: {
+        register() {
+            this.$validator.validate().then(isValid => {
+                if (!isValid) {
+                    return
+                }
 
-                    this.toggleLoading()
+                this.toggleLoading()
 
-                    this.$store.dispatch(POST_REGISTER, this.model)
-                        .then(response => {
-                            this.toggleLoading()
+                this.$store
+                    .dispatch(POST_REGISTER, this.model)
+                    .then(response => {
+                        this.toggleLoading()
 
-                            this.flash('Succesfully registered.')
+                        this.flash('Succesfully registered.')
 
-                            this.setAuth(response.data)
-                        })
-                        .catch(error => {
-                            this.toggleLoading()
+                        this.setAuth(response.data)
+                    })
+                    .catch(error => {
+                        this.toggleLoading()
 
-                            // error.response.data => { email: 'This user already exists' }
-                            // => ['email']
-                            // this.errors.add({ field: 'email', msg: 'This user already exists' })
-                            Object.keys(error.response.data).forEach(field => {
-                                this.errors.add({
-                                    field,
-                                    msg: error.response.data[field]
-                                })
+                        // error.response.data => { email: 'This user already exists' }
+                        // => ['email']
+                        // this.errors.add({ field: 'email', msg: 'This user already exists' })
+                        Object.keys(error.response.data).forEach(field => {
+                            this.errors.add({
+                                field,
+                                msg: error.response.data[field]
                             })
                         })
-                })
-            }
+                    })
+            })
         }
     }
+}
 </script>
