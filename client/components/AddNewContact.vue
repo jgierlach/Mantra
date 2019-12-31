@@ -33,7 +33,12 @@ export default {
     }
   },
   methods: {
-    addNewContact() {}
+    addNewContact() {
+      this.$store.dispatch('newContact', {
+        name: this.name,
+        phoneNumber: this.phoneNumber
+      })
+    }
   }
 }
 </script>
