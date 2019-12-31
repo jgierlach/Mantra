@@ -9,5 +9,21 @@ export default new Vuex.Store({
   modules: {
     auth,
     flash
+  },
+  state: {
+    selectedQuote: '',
+    contactSendList: []
+  },
+  actions: {
+
+
+  },
+  mutations: {
+    addToContactSendList(state, payload) {
+      state.contactSendList.push(payload)
+    },
+    removeContactFromSendList(state, payload) {
+      state.contactSendList.splice(state.contactSendList.findIndex(contact => contact.name === payload.name), 1);
+    }
   }
 })

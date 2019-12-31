@@ -14,6 +14,7 @@
     <div class="h-2 w-full bg-gold-light"></div>
     <div class="py-5 mx-10 flex justify-between items-center">
       <router-link to="/" class="no-underline text-gold">Mevn</router-link>
+      <router-link to="/contacts" class="no-underline text-gold">Contacts</router-link>
       <div v-if="!auth">
         <router-link class="no-underline text-brown" to="/auth/login">Sign In</router-link>
         <router-link

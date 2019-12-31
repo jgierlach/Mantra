@@ -9,11 +9,13 @@ const LoginSchema = Yup.object().shape({
     .required()
 })
 
-export default (req, res, next) =>
-  LoginSchema.validate(req.body)
+export default (req, res, next) =>{
+  console.log('were inside the login validator req.body ', req.body)
+  return LoginSchema.validate(req.body)
     .then(() => next())
     .catch(error =>
       res.status(422).json({
         [error.path]: error.message
       })
     )
+}

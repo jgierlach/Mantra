@@ -1,9 +1,33 @@
 import User from '@models/User'
+import Contact from '@models/Contact'
+
+const newContact = async (req, res) => {
+  try {
+    const { name, phoneNumber } = req.body
+    if (!name) {
+      throw new Error("name is required")
+    }
+    if (!phoneNumber) {
+      throw new Error("phone number is required")
+    }
+    const contact = await Contact.create({ name, phoneNumber })
+    return res.json(contact)
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 const addContact = async (req, res) => {
+  // assumptinos
+  // 1. the user doc exists
+  // 2. the contact doc exists
+
   try {
-    const user = User.findById(req.user.id)
-    user.contacts.push(req.body)
+    const id = req.user.id
+    const update = { $addToSet: { contacts: [req.body.contactId] } }
+    const options = { new: true }
+    const updatedUser = await User.findByIdAndUpdate(id, update, options)
+    return res.json(updatedUser)
   } catch (err) {
     console.error(err)
   }
@@ -11,8 +35,8 @@ const addContact = async (req, res) => {
 
 const displayAllContacts = async (req, res) => {
   try {
-    console.log('req.user.id', req.user.id)
-    const user = User.findById(req.user.id)
+    console.log('req.headers', req.headers)
+    const user = await User.findById(req.user.id).populate('contacts')
     const contacts = user.contacts
     return res.status(201).json(contacts)
   } catch (err) {
@@ -22,5 +46,6 @@ const displayAllContacts = async (req, res) => {
 
 export default {
   addContact,
-  displayAllContacts
+  displayAllContacts,
+  newContact
 }

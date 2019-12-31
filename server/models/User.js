@@ -14,25 +14,27 @@ const UserSchema = new mongoose.Schema({
   password: String,
   emailConfirmedAt: Date,
   emailConfirmCode: String,
-  contacts: Array
+  contacts: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Contact'
+  }]
+}, {
+  timestamps: true
 })
 
-UserSchema.pre('save', function() {
-  this.password = Bcrypt.hashSync(this.password)
-  this.emailConfirmCode = randomstring.generate(72)
-
-  this.createdAt = new Date()
+UserSchema.pre('save', async function () {
+  if (this.isNew) {
+    this.password = Bcrypt.hashSync(this.password)
+    this.emailConfirmCode = randomstring.generate(72)
+    await this.sendEmailConfirmation()
+  }
 })
 
-UserSchema.post('save', async function() {
-  await this.sendEmailConfirmation()
-})
-
-UserSchema.methods.generateToken = function() {
+UserSchema.methods.generateToken = function () {
   return jwt.sign({ id: this._id }, config.jwtSecret)
 }
 
-UserSchema.methods.sendEmailConfirmation = async function() {
+UserSchema.methods.sendEmailConfirmation = async function () {
   await new Mail('confirm-account')
     .to(this.email, this.name)
     .subject('Please confirm your account')
@@ -43,11 +45,15 @@ UserSchema.methods.sendEmailConfirmation = async function() {
     .send()
 }
 
-UserSchema.methods.comparePasswords = function(plainPassword) {
-  return Bcrypt.compareSync(plainPassword, this.password)
+UserSchema.methods.comparePasswords = function (plainPassword) {
+  const passwordsMatch = Bcrypt.compareSync(plainPassword, this.password)
+
+  console.log({ passwordsMatch })
+
+  return passwordsMatch
 }
 
-UserSchema.methods.forgotPassword = async function() {
+UserSchema.methods.forgotPassword = async function () {
   const token = randomstring.generate(72)
 
   await PasswordReset.create({
