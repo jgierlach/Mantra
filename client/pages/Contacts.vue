@@ -17,24 +17,15 @@ import AddNewContact from '../components/AddNewContact.vue'
 
 export default {
   async mounted() {
-    try {
-      const { token } = JSON.parse(localStorage.getItem('auth'))
-      const response = await axios.get('/api/v1/contacts', {
-        headers: {
-          access_token: token
-        }
-      })
-      this.contacts = response.data
-    } catch (err) {
-      console.error(err)
-    }
+    this.$store.dispatch('fetchContacts')
   },
   data() {
-    return {
-      contacts: []
-    }
+    return {}
   },
   computed: {
+    contacts() {
+      return this.$store.state.contacts
+    },
     contactSendList() {
       return this.$store.state.contactSendList
     }

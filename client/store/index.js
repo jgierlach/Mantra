@@ -12,8 +12,9 @@ export default new Vuex.Store({
     flash
   },
   state: {
-    selectedQuote: '',
-    contactSendList: []
+    selectedQuote: 'How will you inspire your friends today?',
+    contacts: [],
+    contactSendList: [],
   },
   actions: {
     async newContact({ state, dispatch }, contact) {
@@ -24,13 +25,36 @@ export default new Vuex.Store({
         }
       })
       const contactId = response.data._id
-      console.log('contactId', contactId)
-      await axios.post('/api/v1/contacts/add', {'contactId': contactId}, {
+      await axios.post('/api/v1/contacts/add', { 'contactId': contactId }, {
         headers: {
           access_token: token
         }
       })
+      dispatch('fetchContacts')
     },
+    async fetchContacts({ state }) {
+      try {
+        const { token } = JSON.parse(localStorage.getItem('auth'))
+        const response = await axios.get('/api/v1/contacts', {
+          headers: {
+            access_token: token
+          }
+        })
+        state.contacts = response.data
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    async deleteContact({ dispatch, commit }, contact) {
+      const { token } = JSON.parse(localStorage.getItem('auth'))
+      await axios.post('/api/v1/contacts/delete', { 'contactId': contact._id }, {
+        headers: {
+          access_token: token
+        }
+      })
+      commit('removeContactFromSendList', contact)
+      dispatch('fetchContacts')
+    }
   },
   mutations: {
     addToContactSendList(state, payload) {

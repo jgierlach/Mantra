@@ -13,6 +13,10 @@
         class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 rounded"
         @click="removeContactFromSendList(contact)"
       >Remove From Send List</button>
+      <button
+        class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 rounded"
+        @click="deleteContact(contact)"
+      >DELETE CONTACT</button>
     </div>
   </transition>
 </template>
@@ -26,6 +30,9 @@ export default {
     },
     removeContactFromSendList(contact) {
       this.$store.commit('removeContactFromSendList', contact)
+    },
+    deleteContact(contact) {
+      this.$store.dispatch('deleteContact', contact)
     }
   }
 }

@@ -10,6 +10,10 @@ import forgotPasswordValidator from '@validators/forgot-password'
 
 const router = new Router()
 
+router.get('/api/v1/', async (req, res) => {
+  res.send("Service is up")
+})
+
 router.post('/api/v1/auth/login', loginValidator, authController.login)
 
 router.post('/api/v1/auth/register', registerValidator, authController.register)
@@ -39,6 +43,8 @@ router.post(
 )
 
 router.get('/api/v1/contacts', authMiddleware, contactsController.displayAllContacts)
+
+router.post('/api/v1/contacts/delete', authMiddleware, contactsController.deleteContact)
 
 router.post('/api/v1/contacts/new', authMiddleware, contactsController.newContact)
 
