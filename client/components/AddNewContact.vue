@@ -2,7 +2,7 @@
   <div class="container my-16 w-full mx-auto">
     <div class="max-w-sm mx-auto">
       <div class="w-full bg-white shadow-md mt-5 rounded-sm p-12">
-        <h2 class="text-center text-gold mb-6">New Contact</h2>
+        <h2 class="text-center text-gold mb-6">Add Contact</h2>
         <input
           class="w-full text-xs focus:outline-none bg-brown-lightest p-5 text-brown mb-3"
           name="name"

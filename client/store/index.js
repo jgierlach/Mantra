@@ -12,7 +12,8 @@ export default new Vuex.Store({
     flash
   },
   state: {
-    selectedQuote: 'How will you inspire your friends today?',
+    selectedQuoteText: 'How will you inspire your friends today?',
+    selectedQuoteAuthor: '',
     contacts: [],
     contactSendList: [],
   },
@@ -54,6 +55,10 @@ export default new Vuex.Store({
       })
       commit('removeContactFromSendList', contact)
       dispatch('fetchContacts')
+    },
+    updateSelectedQuoteTextAndAuthor({ commit }, quote) {
+      commit("updateSelectedQuoteText", quote)
+      commit("updateSelectedQuoteAuthor", quote)
     }
   },
   mutations: {
@@ -62,6 +67,12 @@ export default new Vuex.Store({
     },
     removeContactFromSendList(state, payload) {
       state.contactSendList.splice(state.contactSendList.findIndex(contact => contact.name === payload.name), 1);
+    },
+    updateSelectedQuoteText(state, quote) {
+      state.selectedQuoteText = quote.quote
+    },
+    updateSelectedQuoteAuthor(state, quote) {
+      state.selectedQuoteAuthor = quote.author
     }
   }
 })
