@@ -59,6 +59,14 @@ export default new Vuex.Store({
     updateSelectedQuoteTextAndAuthor({ commit }, quote) {
       commit("updateSelectedQuoteText", quote)
       commit("updateSelectedQuoteAuthor", quote)
+    },
+    async sendQuoteToContacts() {
+      const { token } = JSON.parse(localStorage.getItem('auth'))
+      await axios.post('/api/v1/quotes/send', { to: '+2246450847', from: '+18632690689', body: 'This is a test' }, {
+        headers: {
+          access_token: token
+        }
+      })
     }
   },
   mutations: {

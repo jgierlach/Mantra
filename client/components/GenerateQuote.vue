@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="background">
     <transition name="fade" appear>
-      <div>
+      <div class>
         <div class="mt-4">
           <h1 class="text-center">"{{selectedQuoteText}}"</h1>
         </div>
@@ -16,6 +16,10 @@
         class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded text-center"
         @click="generateQuote"
       >Find A Quote</button>
+      <button
+        class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded text-center"
+        @click="sendQuote"
+      >Send Quote</button>
     </div>
   </div>
 </template>
@@ -43,10 +47,21 @@ export default {
       const quotes = quoteData()
       const quote = quotes[Math.floor(Math.random() * 11)]
       this.$store.dispatch('updateSelectedQuoteTextAndAuthor', quote)
+    },
+    sendQuote() {
+      this.$store.dispatch('sendQuoteToContacts')
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.background {
+  background: white;
+  box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 1.5rem;
+  border-radius: 15px;
+  display: flex;
+  margin: 1rem;
+}
 </style>

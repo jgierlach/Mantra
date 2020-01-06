@@ -7,6 +7,7 @@ import contactsController from "@controllers/contacts.controller"
 import emailConfirmValidator from '@validators/email-confirm'
 import resetPasswordValidator from '@validators/reset-password'
 import forgotPasswordValidator from '@validators/forgot-password'
+import quoteController from '@controllers/quote.controller.js'
 
 const router = new Router()
 
@@ -49,5 +50,7 @@ router.post('/api/v1/contacts/delete', authMiddleware, contactsController.delete
 router.post('/api/v1/contacts/new', authMiddleware, contactsController.newContact)
 
 router.post('/api/v1/contacts/add', authMiddleware, contactsController.addContact)
+
+router.post('/api/v1/quotes/send', authMiddleware, quoteController.sendQuoteToContacts)
 
 export default router

@@ -1,11 +1,8 @@
 <template>
   <div class="container">
-    <ContactCard v-for="contact in contactSendList" :key="contact.id" :contact="contact" />
-    <div class="border-t-4 border-red-600 rounded mt-4 p-3 px-5"></div>
+    <h1 class="text-center">Contacts</h1>
     <ContactCard v-for="contact in contacts" :key="contact.id" :contact="contact" />
     <div class="border-t-4 border-red-600 rounded mt-4 p-3 px-5"></div>
-
-    <!-- Add A New Contact -->
     <AddNewContact />
   </div>
 </template>

@@ -6,10 +6,6 @@
       <h3>Name: {{contact.name}}</h3>
       <h3>Phone Number: {{contact.phoneNumber}}</h3>
       <button
-        class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded"
-        @click="addToContactSendList(contact)"
-      >Add To Send List</button>
-      <button
         class="bg-red hover:bg-red-dark text-white font-bold py-2 px-4 rounded"
         @click="removeContactFromSendList(contact)"
       >Remove From Send List</button>
@@ -25,9 +21,9 @@
 export default {
   props: ['contact'],
   methods: {
-    addToContactSendList(contact) {
-      this.$store.commit('addToContactSendList', contact)
-    },
+    // addToContactSendList(contact) {
+    //   this.$store.commit('addToContactSendList', contact)
+    // },
     removeContactFromSendList(contact) {
       this.$store.commit('removeContactFromSendList', contact)
     },

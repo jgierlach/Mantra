@@ -19,6 +19,9 @@
 import ContactCard from './ContactCard.vue'
 
 export default {
+  mounted() {
+    this.$store.dispatch('fetchContacts')
+  },
   computed: {
     contacts() {
       return this.$store.state.contacts
