@@ -28,6 +28,7 @@ export default {
     unsetAuth() {
       localStorage.removeItem('auth')
       this.$store.commit(UNSET_AUTH)
+      this.$store.commit('resetContactsFromSendList')
 
       this.flash('Successfully logged out.')
 

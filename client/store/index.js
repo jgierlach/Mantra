@@ -82,6 +82,9 @@ export default new Vuex.Store({
     },
     updateSelectedQuoteAuthor(state, quote) {
       state.selectedQuoteAuthor = quote.author
+    },
+    resetContactsFromSendList(state, payload) {
+      state.contactSendList = []
     }
   }
 })
