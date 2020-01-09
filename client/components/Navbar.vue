@@ -33,6 +33,11 @@
 import Flash from './Flash.vue'
 
 export default {
+  computed: {
+    auth() {
+      return this.$store.state.auth.user
+    }
+  },
   components: {
     Flash
   }
