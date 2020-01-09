@@ -45,7 +45,7 @@ export default {
     generateQuote() {
       this.showAuthor = true
       const quotes = quoteData()
-      const quote = quotes[Math.floor(Math.random() * 11)]
+      const quote = quotes[Math.floor(Math.random() * 30)]
       this.$store.dispatch('updateSelectedQuoteTextAndAuthor', quote)
     },
     sendQuote() {
