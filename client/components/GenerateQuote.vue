@@ -49,7 +49,11 @@ export default {
       this.$store.dispatch('updateSelectedQuoteTextAndAuthor', quote)
     },
     sendQuote() {
-      this.$store.dispatch('sendQuoteToContacts')
+      const contacts = this.$store.state.contactSendList
+      for (let i = 0; i < contacts.length; i++) {
+        console.log(contacts[i])
+        this.$store.dispatch('sendQuoteToContacts', contacts[i])
+      }
     }
   }
 }
@@ -61,7 +65,5 @@ export default {
   box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 1.5rem;
   border-radius: 15px;
-  display: flex;
-  margin: 1rem;
 }
 </style>
