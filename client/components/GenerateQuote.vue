@@ -54,6 +54,7 @@ export default {
         console.log(contacts[i])
         this.$store.dispatch('sendQuoteToContacts', contacts[i])
       }
+      this.flash('Your Quote Has Been Sent!')
     }
   }
 }

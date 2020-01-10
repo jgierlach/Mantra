@@ -33,6 +33,9 @@
 import Flash from './Flash.vue'
 
 export default {
+  mounted() {
+    this.$forceUpdate()
+  },
   computed: {
     auth() {
       return this.$store.state.auth.user
