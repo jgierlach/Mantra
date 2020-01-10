@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './auth'
 import flash from './flash'
 import axios from 'axios'
+import headers from '../utils/config'
 
 Vue.use(Vuex)
 
@@ -19,40 +20,21 @@ export default new Vuex.Store({
   },
   actions: {
     async newContact({ state, dispatch }, contact) {
-      const { token } = JSON.parse(localStorage.getItem('auth'))
-      const response = await axios.post('/api/v1/contacts/new', contact, {
-        headers: {
-          access_token: token
-        }
-      })
+      const response = await axios.post('/api/v1/contacts/new', contact, headers)
       const contactId = response.data._id
-      await axios.post('/api/v1/contacts/add', { 'contactId': contactId }, {
-        headers: {
-          access_token: token
-        }
-      })
+      await axios.post('/api/v1/contacts/add', { 'contactId': contactId }, headers)
       dispatch('fetchContacts')
     },
     async fetchContacts({ state }) {
       try {
-        const { token } = JSON.parse(localStorage.getItem('auth'))
-        const response = await axios.get('/api/v1/contacts', {
-          headers: {
-            access_token: token
-          }
-        })
+        const response = await axios.get('/api/v1/contacts', headers)
         state.contacts = response.data
       } catch (err) {
         console.error(err)
       }
     },
     async deleteContact({ dispatch, commit }, contact) {
-      const { token } = JSON.parse(localStorage.getItem('auth'))
-      await axios.post('/api/v1/contacts/delete', { 'contactId': contact._id }, {
-        headers: {
-          access_token: token
-        }
-      })
+      await axios.post('/api/v1/contacts/delete', { 'contactId': contact._id }, headers)
       commit('removeContactFromSendList', contact)
       dispatch('fetchContacts')
     },
@@ -61,13 +43,7 @@ export default new Vuex.Store({
       commit("updateSelectedQuoteAuthor", quote)
     },
     async sendQuoteToContacts({ state }, contact) {
-      const { token } = JSON.parse(localStorage.getItem('auth'))
-      console.log(contact.phoneNumber)
-      await axios.post('/api/v1/quotes/send', { to: contact.phoneNumber, from: '+18632690689', body: `${state.selectedQuoteText} \n -${state.selectedQuoteAuthor}` }, {
-        headers: {
-          access_token: token
-        }
-      })
+      await axios.post('/api/v1/quotes/send', { to: contact.phoneNumber, from: '+18632690689', body: `Some inspiration from ${state.auth.user.name} \n ${state.selectedQuoteText} \n -${state.selectedQuoteAuthor}` }, headers)
     }
   },
   mutations: {
